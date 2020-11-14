@@ -70,7 +70,7 @@ function onTimeout() {
             setTimeout(() => {
                 chrome.notifications.clear(id)
                 onNotifyClose(id)
-            }, 2000)
+            }, 4000)
         }
     )
 }
