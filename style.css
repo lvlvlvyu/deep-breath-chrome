@@ -33,9 +33,6 @@ breath {
     z-index: 1000000;
 }
 
-breath .watch-face-wrapper {
-}
-
 breath .progress-container {
     margin-top: 100px;
 }
@@ -103,7 +100,24 @@ breath .close::after {
     transform: translateY(-50%) translateY(15px) rotate(-45deg);
 }
 
-breath .watch-face {
+breath .hint {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    animation: 3s hint-blink ease-in-out infinite alternate;
+}
+
+@keyframes hint-blink {
+    from {
+        opacity: .5;
+    }
+    to {
+        opacity: .8;
+    }
+}
+
+breath .flowers {
     height: 125px;
     width: 125px;
     animation: breath-pulse 4s ease-in-out alternate infinite;
