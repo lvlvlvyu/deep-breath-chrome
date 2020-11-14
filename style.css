@@ -1,5 +1,46 @@
+html, body {
+    overflow: hidden !important;
+}
 
-.progress {
+@keyframes enter {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes exit {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+breath {
+    animation: 1s enter ease-out;
+    background: black;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000000;
+}
+
+breath .watch-face-wrapper {
+}
+
+breath .progress-container {
+    margin-top: 100px;
+}
+
+breath .progress {
     --width: 300px;
     --height: 10px;
     --percent: 100%;
@@ -10,43 +51,65 @@
     overflow: hidden;
 }
 
-.bar {
+breath .bar {
     width: var(--percent);
     height: var(--height);
     min-width: 1%;
-    background: #4d76fd;
+    background: rgb(97, 190, 162);
     border-radius: calc(var(--height) / 2);
 }
 
-.close-button {
+breath .close button {
+    width: 0;
+    height: 0;
+    appearance: none;
+    visibility: hidden;
+}
+
+breath .close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    transform: translate(50%, -50%);
+    top: 50px;
+    right: 50px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    opacity: .3;
+    border-radius: 50%;
+    transition: all .3s ease-in-out;
 }
 
-html, body {
-    overflow: hidden !important;
+breath .close:hover {
+    opacity: .7;
+    transform: rotate(90deg);
 }
 
-.watch-face-wrapper {
-    background: black;
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000000;
+breath .close::before, breath .close::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 3px;
+    transform-origin: center;
+    background-color: white;
 }
 
-.watch-face {
+breath .close::before {
+    transform: translateY(-50%) translateY(15px) rotate(45deg);
+}
+
+breath .close::after {
+    transform: translateY(-50%) translateY(15px) rotate(-45deg);
+}
+
+breath .watch-face {
     height: 125px;
     width: 125px;
-    animation: pulse 4s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
+    animation: breath-pulse 4s ease-in-out alternate infinite;
 }
 
-.circle {
+breath .circle {
     height: 125px;
     width: 125px;
     border-radius: 50%;
@@ -56,39 +119,39 @@ html, body {
     animation: center 6s infinite;
 }
 
-.circle:nth-child(odd) {
+breath .circle:nth-child(odd) {
     background: #61bea2;
 }
 
-.circle:nth-child(even) {
+breath .circle:nth-child(even) {
     background: #529ca0;
 }
 
-.circle:nth-child(1) {
-    animation: circle-1 4s ease alternate infinite;
+breath .circle:nth-child(1) {
+    animation: breath-circle-1 4s ease alternate infinite;
 }
 
-.circle:nth-child(2) {
-    animation: circle-2 4s ease alternate infinite;
+breath .circle:nth-child(2) {
+    animation: breath-circle-2 4s ease alternate infinite;
 }
 
-.circle:nth-child(3) {
-    animation: circle-3 4s ease alternate infinite;
+breath .circle:nth-child(3) {
+    animation: breath-circle-3 4s ease alternate infinite;
 }
 
-.circle:nth-child(4) {
-    animation: circle-4 4s ease alternate infinite;
+breath .circle:nth-child(4) {
+    animation: breath-circle-4 4s ease alternate infinite;
 }
 
-.circle:nth-child(5) {
-    animation: circle-5 4s ease alternate infinite;
+breath .circle:nth-child(5) {
+    animation: breath-circle-5 4s ease alternate infinite;
 }
 
-.circle:nth-child(6) {
+breath .circle:nth-child(6) {
     animation: circle-6 4s ease alternate infinite;
 }
 
-@keyframes pulse {
+@keyframes breath-pulse {
     0% {
         transform: scale(.15) rotate(180deg);
     }
@@ -97,7 +160,7 @@ html, body {
     }
 }
 
-@keyframes circle-1 {
+@keyframes breath-circle-1 {
     0% {
         transform: translate(0, 0);
     }
@@ -106,7 +169,7 @@ html, body {
     }
 }
 
-@keyframes circle-2 {
+@keyframes breath-circle-2 {
     0% {
         transform: translate(0, 0);
     }
@@ -115,7 +178,7 @@ html, body {
     }
 }
 
-@keyframes circle-3 {
+@keyframes breath-circle-3 {
     0% {
         transform: translate(0, 0);
     }
@@ -124,7 +187,7 @@ html, body {
     }
 }
 
-@keyframes circle-4 {
+@keyframes breath-circle-4 {
     0% {
         transform: translate(0, 0);
     }
@@ -133,7 +196,7 @@ html, body {
     }
 }
 
-@keyframes circle-5 {
+@keyframes breath-circle-5 {
     0% {
         transform: translate(0, 0);
     }

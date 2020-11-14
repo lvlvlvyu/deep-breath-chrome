@@ -14,8 +14,8 @@
         "http://*/*"
       ],
       "js": [
-        "content.js",
-        "utils.js"
+        "utils.js",
+        "content.js"
       ]
     }
   ],
