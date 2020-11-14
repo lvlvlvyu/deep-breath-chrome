@@ -1,0 +1,18 @@
+@startuml
+state timer_enabled {
+    [*] --> timer_pause
+    timer_pause --> timer_active: tab focus
+    timer_active --> timer_pause: tab blur
+
+    state c <<choice>>
+
+    timer_active --> wait_user: timeout
+    wait_user --> breath: ok
+
+    wait_user --> c: cancel
+    breath --> c: breath exit
+
+    c --> timer_pause: has tab focus
+    c --> timer_active: no tab focus
+}
+@enduml
