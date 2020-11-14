@@ -1,13 +1,17 @@
+let BREATH_TIME = 5 // seconds
+let breathActive = false
+
 chrome.runtime.onMessage.addListener(message => {
     switch (message) {
         case 'active-breath': {
-            active()
+            chrome.storage.sync.get('bt', ({bt}) => {
+                BREATH_TIME = bt * 1
+                active()
+            })
+            break
         }
     }
 })
-
-const BREATH_TIME =  5// seconds
-let breathActive = false
 
 async function active() {
     let breathDiv = document.createElement('breath')

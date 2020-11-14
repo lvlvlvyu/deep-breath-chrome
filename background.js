@@ -1,6 +1,6 @@
 // TODO configurable
 // 时间阈值
-const THRESHOLD = 5 * 1000
+let THRESHOLD = 5 * 1000
 // 定时器精度
 const TIMER_ACC = 1000
 // 通知停留时间
@@ -14,6 +14,10 @@ let someTabFocus = false
 let timerEnabled = true
 // 定时器id，-1表示未启动
 let timerId = -1
+
+chrome.storage.sync.get('th', ({th}) => {
+    THRESHOLD = th * 1000
+})
 
 chrome.runtime.onMessage.addListener(message => {
     switch (message) {
@@ -29,6 +33,13 @@ chrome.runtime.onMessage.addListener(message => {
             timerEnabled = true
             if (someTabFocus)
                 startTimer()
+            break
+
+        case 'config-change':
+            console.log('change')
+            chrome.storage.sync.get('th', ({th}) => {
+                THRESHOLD = th * 1000
+            })
             break
     }
 })
