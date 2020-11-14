@@ -15,3 +15,8 @@ async function getContent(url) {
         }
     })
 }
+
+
+async function getResource(resource) {
+    return await getContent(chrome.runtime.getURL(resource))
+}

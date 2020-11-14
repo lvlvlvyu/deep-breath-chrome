@@ -20,11 +20,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 async function active() {
     let breathDiv = document.createElement('breath')
-    breathDiv.innerHTML = await getContent(chrome.runtime.getURL("breath.html"))
+    breathDiv.innerHTML = await getResource("breath.html")
 
 
     let style = document.createElement('style')
-    style.innerText = await getContent(chrome.runtime.getURL("style.css"))
+    style.innerText = await getResource("style.css")
 
     document.body.prepend(breathDiv)
     document.head.append(style)
