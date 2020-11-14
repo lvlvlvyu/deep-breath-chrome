@@ -21,5 +21,9 @@
   "permissions": [
     "tabs",
     "notifications"
+  ],
+  "web_accessible_resources": [
+    "*.css",
+    "breath.html"
   ]
 }

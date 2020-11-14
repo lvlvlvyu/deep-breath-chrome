@@ -11,9 +11,13 @@ let breathActive = false
 
 function active() {
     let breathDiv = document.createElement('breath')
-    breathDiv.innerHTML = ``
+    breathDiv.innerHTML = await getResource("breath.html")
+
+
     let style = document.createElement('style')
-    style.innerText = ``
+
+    style.innerText = await getResource("style.css")
+
     document.body.prepend(breathDiv)
     document.head.append(style)
     breathActive = true
