@@ -41,6 +41,7 @@ async function active() {
         setTimeout(() => {
             breathDiv.remove()
             style.remove()
+            myAudio.pause()
             breath_exit()
         }, 1000)
     }
