@@ -14,9 +14,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     }
 })
 
+
 async function active() {
-    let div = document.createElement('div')
-    div.innerHTML = `<div class="watch-face-wrapper">
+    let breathDiv = document.createElement('breath')
+    breathDiv.innerHTML = `<div class="watch-face-wrapper">
     <div class="watch-face">
         <div class="circle"></div>
         <div class="circle"></div>
@@ -25,9 +26,16 @@ async function active() {
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
+    <button class="close-button">退出</button>
 </div>`
     let style = document.createElement('style')
     style.innerText = `
+        .close-button{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            transform: translate(50%, -50%);
+        }
         html, body {
             overflow: hidden !important;
         }
@@ -153,7 +161,18 @@ async function active() {
                 transform: translate(35px, -50px);
             }
         }`
-    document.body.prepend(div)
+    document.body.prepend(breathDiv)
     document.head.append(style)
-    await div.requestFullscreen()
+
+    let exit = breathDiv.querySelector('button')
+    exit.addEventListener('click', () => {
+        breathDiv.remove()
+        style.remove()
+    })
+    setTimeout(() => {
+        breathDiv.remove()
+        style.remove()
+    }, 2000);
+
+    await breathDiv.requestFullscreen()
 }
