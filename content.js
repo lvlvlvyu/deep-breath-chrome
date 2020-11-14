@@ -54,11 +54,11 @@ async function active() {
 }
 
 function tab_focus() {
-    chrome.runtime.sendMessage('some-tab-focus')
+    chrome.runtime.sendMessage('tab-focus')
 }
 
 function tab_blur() {
-    chrome.runtime.sendMessage('some-tab-blur')
+    chrome.runtime.sendMessage('tab-blur')
 }
 
 function breath_exit() {
