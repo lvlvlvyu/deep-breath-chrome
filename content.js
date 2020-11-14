@@ -9,10 +9,9 @@ chrome.runtime.onMessage.addListener(message => {
 
 let breathActive = false
 
-function active() {
+async function active() {
     let breathDiv = document.createElement('breath')
     breathDiv.innerHTML = await getResource("breath.html")
-
 
     let style = document.createElement('style')
 
