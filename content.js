@@ -1,7 +1,18 @@
 const btn = document.createElement('button')
 btn.innerText = 'active'
-btn.addEventListener('click', active)
+btn.addEventListener('click', () => {
+    chrome.runtime.sendMessage('timeout')
+})
 document.body.prepend(btn)
+
+chrome.runtime.onMessage.addListener((message, sender) => {
+    console.log(sender, message)
+    switch (message) {
+        case 'active-breath': {
+            active()
+        }
+    }
+})
 
 async function active() {
     let div = document.createElement('div')
