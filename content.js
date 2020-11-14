@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(message => {
     }
 })
 
-const BREATH_TIME = 5 // seconds
+const BREATH_TIME =  5// seconds
 let breathActive = false
 
 async function active() {
@@ -26,15 +26,21 @@ async function active() {
     let progress = breathDiv.querySelector('.progress')
     let bar = breathDiv.querySelector('.bar')
     let closeBtn = breathDiv.querySelector('.close button')
+    let hint = breathDiv.querySelector('.hint')
     bar.style.cssText = `transition: width ${BREATH_TIME}s linear`
     bar.scrollTop // trigger reflow
     progress.style.cssText = `--percent: 0%`
     let timerId = setTimeout(exit, BREATH_TIME * 1000)
+    let hintTimerId = setTimeout(() => {
+        hint.remove()
+    }, 2000)
 
     closeBtn.addEventListener('click', () => {
         clearInterval(timerId)
+        clearInterval(hintTimerId)
         exit()
     })
+
 
     function exit() {
         breathDiv.style.animation = '1s exit ease-out';
