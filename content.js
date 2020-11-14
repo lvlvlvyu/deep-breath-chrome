@@ -1,24 +1,13 @@
-const btn = document.createElement('button')
-btn.innerText = 'active'
-btn.addEventListener('click', () => {
-
-    chrome.runtime.sendMessage('timeout')
-})
-document.body.prepend(btn)
-
-chrome.runtime.onMessage.addListener((message, sender) => {
-    console.log(sender, message)
+chrome.runtime.onMessage.addListener(message => {
     switch (message) {
         case 'active-breath': {
-            // var r = confirm("是否要进入呼吸模式")
-            // if (r === true) {
-            //     active()
-            // }
             active()
         }
     }
 })
 
+
+let breathActive = false
 
 async function active() {
     let breathDiv = document.createElement('breath')
@@ -194,16 +183,17 @@ async function active() {
     document.body.prepend(breathDiv)
     document.head.append(style)
 
-    let progress = breathDiv.getElementsByClassName("progress")[0]
-    let sumTime = 60
-    let time = sumTime
-
     let exit = breathDiv.querySelector('button')
     exit.addEventListener('click', () => {
         breathDiv.remove()
         style.remove()
         time = 0
     })
+    breathActive = true
+
+    let progress = breathDiv.getElementsByClassName("progress")[0]
+    let sumTime = 60
+    let time = sumTime
 
     function timer() {
         if (time > 0) {
@@ -214,16 +204,32 @@ async function active() {
         } else {
             breathDiv.remove()
             style.remove()
+            breath_exit()
         }
     }
 
     timer()
+}
 
+function tab_focus() {
+    chrome.runtime.sendMessage('some-tab-focus')
+}
 
-    // setTimeout(() => {
-    //     breathDiv.remove()
-    //     style.remove()
-    // }, 2000);
+function tab_blur() {
+    chrome.runtime.sendMessage('some-tab-blur')
+}
 
-    await breathDiv.requestFullscreen()
+function breath_exit() {
+    breathActive = false
+    chrome.runtime.sendMessage('breath-exit')
+}
+
+window.addEventListener('focus', tab_focus)
+window.addEventListener('blur', tab_blur)
+window.addEventListener('unload', tab_blur)
+window.addEventListener('unload', () => {
+    if (breathActive) breath_exit()
+})
+if (document.hasFocus()) {
+    tab_focus()
 }
