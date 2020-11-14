@@ -32,8 +32,6 @@ async function active() {
         breathDiv.remove()
         style.remove()
         breath_exit()
-        if (document.hasFocus())
-            tab_focus()
     }, BREATH_TIME * 1000)
 
     closeBtn.addEventListener('click', () => {
@@ -41,7 +39,6 @@ async function active() {
         breathDiv.remove()
         style.remove()
         breath_exit()
-        tab_focus()
     })
 }
 

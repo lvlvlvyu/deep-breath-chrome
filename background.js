@@ -2,23 +2,24 @@ console.log("background")
 
 let focusTime = 0
 let threshold = 5 * 1000
+// 是否有标签获得焦点
+let someTabFocus = false
 // let threshold = 30 * 60 * 1000
 
 chrome.runtime.onMessage.addListener(message => {
     switch (message) {
         case 'some-tab-blur':
+            someTabFocus = false
             stopTimer()
             break
         case 'some-tab-focus':
+            someTabFocus = true
             startTimer()
             break
         case 'breath-exit':
             timerEnabled = true
-            break
-        case 'breath-cancel':
-            timerEnabled = true
-            // TODO
-            focusTime = 0
+            if (someTabFocus)
+                startTimer()
             break
     }
 })
@@ -65,14 +66,18 @@ function onTimeout() {
             contextMessage: '点击通知即刻开始呼吸',
             buttons: [],
             items: [{title: '操作', message: '点击通知即刻开始呼吸'}],
-            requireInteraction: true
+        }, id => {
+            setTimeout(() => {
+                chrome.notifications.clear(id)
+                onNotifyClose(id)
+            }, 2000)
         }
     )
 }
 
 let clicked = false
 
-chrome.notifications.onClicked.addListener(id => {
+function onNotifyClick(id) {
     clicked = true
     chrome.tabs.query(
         {active: true, currentWindow: true},
@@ -81,14 +86,20 @@ chrome.notifications.onClicked.addListener(id => {
             chrome.tabs.sendMessage(tabs[0].id, 'active-breath')
         })
     chrome.notifications.clear(id)
-})
-chrome.notifications.onClosed.addListener(id => {
+}
+
+function onNotifyClose(id) {
     if (clicked)
         return
     console.log('onclose')
     chrome.notifications.clear(id)
     timerEnabled = true
+    if (someTabFocus)
+        startTimer()
     // TODO
     focusTime = 0
     clicked = false
-})
+}
+
+chrome.notifications.onClicked.addListener(onNotifyClick)
+chrome.notifications.onClosed.addListener(onNotifyClose)
