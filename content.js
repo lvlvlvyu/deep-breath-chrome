@@ -1,6 +1,7 @@
 const btn = document.createElement('button')
 btn.innerText = 'active'
 btn.addEventListener('click', () => {
+
     chrome.runtime.sendMessage('timeout')
 })
 document.body.prepend(btn)
@@ -9,10 +10,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     console.log(sender, message)
     switch (message) {
         case 'active-breath': {
-            var r = confirm("是否要进入呼吸模式")
-            if (r === true) {
-                active()
-            }
+            // var r = confirm("是否要进入呼吸模式")
+            // if (r === true) {
+            //     active()
+            // }
+            active()
         }
     }
 })
@@ -192,15 +194,16 @@ async function active() {
     document.body.prepend(breathDiv)
     document.head.append(style)
 
-    let exit = breathDiv.querySelector('button')
-    exit.addEventListener('click', () => {
-        breathDiv.remove()
-        style.remove()
-    })
     let progress = breathDiv.getElementsByClassName("progress")[0]
     let sumTime = 60
     let time = sumTime
 
+    let exit = breathDiv.querySelector('button')
+    exit.addEventListener('click', () => {
+        breathDiv.remove()
+        style.remove()
+        time = 0
+    })
 
     function timer() {
         if (time > 0) {
