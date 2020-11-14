@@ -12,7 +12,28 @@ let breathActive = false
 async function active() {
     let breathDiv = document.createElement('breath')
     breathDiv.innerHTML = await getResource("breath.html")
+    let audio = breathDiv.querySelector('audio')
+    audio.src = await getResourceURL("sound.mp3")
+    console.log(audio.paused)
+    if (audio.paused) {
+        audio.paused = false
+        const promise = audio.play();
+        if (promise) {
+            promise.then(() => {
+                // Audio Loading Successful
+                // Audio playback takes time
+                setTimeout(() => {
+                    // Follow up operation
+                    console.log("done.");
+                }, audio.duration * 1000); // audio.duration is the length of the audio in seconds.
 
+            }).catch((e) => {
+                // Audio loading failure
+            });
+        } else {
+            console.log("error")
+        }
+    }
     let style = document.createElement('style')
 
     style.innerText = await getResource("style.css")
