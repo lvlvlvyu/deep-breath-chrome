@@ -65,8 +65,8 @@ function notifyUser() {
         notificationId,
         {
             type: 'list',
-            iconUrl: 'clock.jpg',
-            appIconMaskUrl: 'clock.jpg',
+            iconUrl: 'resources/clock.jpg',
+            appIconMaskUrl: 'resources/clock.jpg',
             title: '提示',
             message: '是否准备休息',
             contextMessage: '点击即刻开始呼吸',

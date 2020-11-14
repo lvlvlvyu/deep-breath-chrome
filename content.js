@@ -13,7 +13,7 @@ async function active() {
     let breathDiv = document.createElement('breath')
     breathDiv.innerHTML = await getResource("breath.html")
 
-    let myAudio = new Audio(await getResourceURL("sound.mp3"));
+    let myAudio = new Audio(await getResourceURL("resources/sound.mp3"));
     myAudio.play();
 
     let style = document.createElement('style')
