@@ -75,8 +75,10 @@ function notifyUser() {
         }, id => {
             // 定时关闭通知
             setTimeout(() => {
-                chrome.notifications.clear(id)
-                onNotifyClose(id)
+                chrome.notifications.clear(id, wasCleared => {
+                    if (wasCleared)
+                        onNotifyClose(id)
+                })
             }, NOTIFICATION_DURATION)
         }
     )
@@ -93,13 +95,12 @@ function onNotifyClick(id) {
     chrome.notifications.clear(id)
 }
 
-function onNotifyClose(id) {
+function onNotifyClose() {
     // 由于点击通知而触发了关闭事件
     if (notificationClicked) {
         notificationClicked = false
         return
     }
-    chrome.notifications.clear(id)
     // TODO 适当推迟
     focusTime = 0
     timerEnabled = true
