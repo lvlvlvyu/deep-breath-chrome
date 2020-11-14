@@ -221,9 +221,6 @@ function breath_exit() {
     chrome.runtime.sendMessage('breath-exit')
 }
 
-function breath_cancel() {
-    chrome.runtime.sendMessage('breath-cancel')
-}
 
 window.addEventListener('focus', tab_focus)
 window.addEventListener('blur', tab_blur)

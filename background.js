@@ -70,7 +70,10 @@ function onTimeout() {
     )
 }
 
+let clicked = false
+
 chrome.notifications.onClicked.addListener(id => {
+    clicked = true
     chrome.tabs.query(
         {active: true, currentWindow: true},
         tabs => {
@@ -80,5 +83,12 @@ chrome.notifications.onClicked.addListener(id => {
     chrome.notifications.clear(id)
 })
 chrome.notifications.onClosed.addListener(id => {
+    if (clicked)
+        return
+    console.log('onclose')
     chrome.notifications.clear(id)
+    timerEnabled = true
+    // TODO
+    focusTime = 0
+    clicked = false
 })
