@@ -12,10 +12,8 @@ let breathActive = false
 async function active() {
     let breathDiv = document.createElement('breath')
     breathDiv.innerHTML = await getResource("breath.html")
-    let audio = breathDiv.querySelector('audio')
 
-    let soundUrl = await getResourceURL("sound.mp3")
-    let myAudio = new Audio(soundUrl);
+    let myAudio = new Audio(await getResourceURL("sound.mp3"));
     myAudio.play();
 
     let style = document.createElement('style')
