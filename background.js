@@ -15,6 +15,17 @@ let timerEnabled = true
 // 定时器id，-1表示未启动
 let timerId = -1
 
+chrome.storage.sync.get('init', ({init}) => {
+    // 首次打开
+    if (init === undefined) {
+        chrome.storage.sync.set({
+            init: false,
+            th: 30 * 60,
+            bt: 60
+        })
+    }
+})
+
 chrome.storage.sync.get('th', ({th}) => {
     THRESHOLD = th * 1000
 })
