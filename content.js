@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(message => {
 
 let breathActive = false
 
-async function active() {
+function active() {
     let breathDiv = document.createElement('breath')
     breathDiv.innerHTML = `<div class="watch-face-wrapper">
     <div class="watch-face">
@@ -26,11 +26,14 @@ async function active() {
             <div class="bar"></div>
         </div>
     </div>
-</div>
- `
+</div>`
     let style = document.createElement('style')
     style.innerText = `
-         .progress {
+         html, body {
+             overflow: hidden !important;
+         }
+        
+         breath .progress {
             --width: 300px;
             --height: 10px;
             --percent: 100%;
@@ -41,7 +44,7 @@ async function active() {
             overflow: hidden;
         }
 
-        .bar {
+        breath .bar {
             width: var(--percent);
             height: var(--height);
             min-width: 1%;
@@ -49,17 +52,14 @@ async function active() {
             border-radius: calc(var(--height) / 2);
         }
 
-        .close-button{
+        breath .close-button{
             position: absolute;
             top: 20px;
             right: 20px;
             transform: translate(50%, -50%);
         }
-        html, body {
-            overflow: hidden !important;
-        }
 
-        .watch-face-wrapper {
+        breath .watch-face-wrapper {
             background: black;
             position: fixed;
             height: 100vh;
@@ -70,13 +70,13 @@ async function active() {
             z-index: 1000000;
         }
 
-        .watch-face {
+        breath .watch-face {
             height: 125px;
             width: 125px;
             animation: pulse 4s cubic-bezier(0.5, 0, 0.5, 1) alternate infinite;
         }
 
-        .circle {
+        breath .circle {
             height: 125px;
             width: 125px;
             border-radius: 50%;
@@ -86,35 +86,35 @@ async function active() {
             animation: center 6s infinite;
         }
 
-        .circle:nth-child(odd) {
+        breath .circle:nth-child(odd) {
             background: #61bea2;
         }
 
-        .circle:nth-child(even) {
+        breath .circle:nth-child(even) {
             background: #529ca0;
         }
 
-        .circle:nth-child(1) {
+        breath .circle:nth-child(1) {
             animation: circle-1 4s ease alternate infinite;
         }
 
-        .circle:nth-child(2) {
+        breath .circle:nth-child(2) {
             animation: circle-2 4s ease alternate infinite;
         }
 
-        .circle:nth-child(3) {
+        breath .circle:nth-child(3) {
             animation: circle-3 4s ease alternate infinite;
         }
 
-        .circle:nth-child(4) {
+        breath .circle:nth-child(4) {
             animation: circle-4 4s ease alternate infinite;
         }
 
-        .circle:nth-child(5) {
+        breath .circle:nth-child(5) {
             animation: circle-5 4s ease alternate infinite;
         }
 
-        .circle:nth-child(6) {
+        breath .circle:nth-child(6) {
             animation: circle-6 4s ease alternate infinite;
         }
 
@@ -182,33 +182,30 @@ async function active() {
         }`
     document.body.prepend(breathDiv)
     document.head.append(style)
-
-    let exit = breathDiv.querySelector('button')
-    exit.addEventListener('click', () => {
-        breathDiv.remove()
-        style.remove()
-        time = 0
-    })
     breathActive = true
 
-    let progress = breathDiv.getElementsByClassName("progress")[0]
-    let sumTime = 60
-    let time = sumTime
+    const BREATH_TIME = 10 // seconds
+    let progress = breathDiv.querySelector('.progress')
+    let bar = breathDiv.querySelector('.bar')
+    let closeBtn = breathDiv.querySelector('button')
+    bar.style.cssText = `transition: width ${BREATH_TIME}s linear`
+    bar.scrollTop // trigger reflow
+    progress.style.cssText = `--percent: 0%`
+    let timerId = setTimeout(() => {
+        breathDiv.remove()
+        style.remove()
+        breath_exit()
+        if (document.hasFocus())
+            tab_focus()
+    }, BREATH_TIME * 1000)
 
-    function timer() {
-        if (time > 0) {
-            time = time - 0.1
-            progress.style.cssText = "--percent:" + time / sumTime * 100 + "%"
-            setTimeout(timer, 100)
-            console.log(time / sumTime * 100)
-        } else {
-            breathDiv.remove()
-            style.remove()
-            breath_exit()
-        }
-    }
-
-    timer()
+    closeBtn.addEventListener('click', () => {
+        clearInterval(timerId)
+        breathDiv.remove()
+        style.remove()
+        breath_exit()
+        tab_focus()
+    })
 }
 
 function tab_focus() {
@@ -222,6 +219,10 @@ function tab_blur() {
 function breath_exit() {
     breathActive = false
     chrome.runtime.sendMessage('breath-exit')
+}
+
+function breath_cancel() {
+    chrome.runtime.sendMessage('breath-cancel')
 }
 
 window.addEventListener('focus', tab_focus)

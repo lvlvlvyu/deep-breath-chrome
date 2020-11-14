@@ -6,19 +6,20 @@ let threshold = 5 * 1000
 
 chrome.runtime.onMessage.addListener(message => {
     switch (message) {
-        case 'some-tab-blur': {
+        case 'some-tab-blur':
             stopTimer()
             break
-        }
-        case 'some-tab-focus': {
+        case 'some-tab-focus':
             startTimer()
             break
-        }
-        case 'breath-exit': {
+        case 'breath-exit':
             timerEnabled = true
-            startTimer()
             break
-        }
+        case 'breath-cancel':
+            timerEnabled = true
+            // TODO
+            focusTime = 0
+            break
     }
 })
 
