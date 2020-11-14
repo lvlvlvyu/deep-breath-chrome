@@ -14,10 +14,15 @@
         "http://*/*"
       ],
       "js": [
-        "content.js"
+        "content.js",
+        "utils.js"
       ]
     }
   ],
   "permissions": [
+  ],
+  "web_accessible_resources": [
+    "*.css",
+    "breath.html"
   ]
 }
