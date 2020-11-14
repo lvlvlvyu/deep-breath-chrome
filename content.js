@@ -9,7 +9,10 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     console.log(sender, message)
     switch (message) {
         case 'active-breath': {
-            active()
+            var r = confirm("是否要进入呼吸模式")
+            if (r === true) {
+                active()
+            }
         }
     }
 })
@@ -27,9 +30,34 @@ async function active() {
         <div class="circle"></div>
     </div>
     <button class="close-button">退出</button>
-</div>`
+    <div class="container">
+        <div class="progress" id="progress">
+            <div class="bar"></div>
+        </div>
+    </div>
+</div>
+ `
     let style = document.createElement('style')
     style.innerText = `
+         .progress {
+            --width: 300px;
+            --height: 10px;
+            --percent: 100%;
+            width: var(--width);
+            height: var(--height);
+            background: #f1f2f7;
+            border-radius: calc(var(--height) / 2);
+            overflow: hidden;
+        }
+
+        .bar {
+            width: var(--percent);
+            height: var(--height);
+            min-width: 1%;
+            background: #4d76fd;
+            border-radius: calc(var(--height) / 2);
+        }
+
         .close-button{
             position: absolute;
             top: 20px;
@@ -169,10 +197,30 @@ async function active() {
         breathDiv.remove()
         style.remove()
     })
-    setTimeout(() => {
-        breathDiv.remove()
-        style.remove()
-    }, 2000);
+    let progress = breathDiv.getElementsByClassName("progress")[0]
+    let sumTime = 60
+    let time = sumTime
+
+
+    function timer() {
+        if (time > 0) {
+            time = time - 0.1
+            progress.style.cssText = "--percent:" + time / sumTime * 100 + "%"
+            setTimeout(timer, 100)
+            console.log(time / sumTime * 100)
+        } else {
+            breathDiv.remove()
+            style.remove()
+        }
+    }
+
+    timer()
+
+
+    // setTimeout(() => {
+    //     breathDiv.remove()
+    //     style.remove()
+    // }, 2000);
 
     await breathDiv.requestFullscreen()
 }
