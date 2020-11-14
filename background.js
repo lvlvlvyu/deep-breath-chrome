@@ -2,7 +2,7 @@
 // 时间阈值
 let THRESHOLD = 5 * 1000
 // 定时器精度
-const TIMER_ACC = 1000
+const TIMER_ACC = 300
 // 通知停留时间
 const NOTIFICATION_DURATION = 4000
 
@@ -76,8 +76,8 @@ function notifyUser() {
         notificationId,
         {
             type: 'list',
-            iconUrl: 'resources/clock.jpg',
-            appIconMaskUrl: 'resources/clock.jpg',
+            iconUrl: 'resources/breath.png',
+            appIconMaskUrl: 'resources/breath.png',
             title: '提示',
             message: '是否准备休息',
             contextMessage: '点击即刻开始呼吸',
