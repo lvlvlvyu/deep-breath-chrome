@@ -1,6 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "release",
+  "name": "Breath",
+  "icons": {
+    "256": "resources/breath.png"
+  },
   "version": "1.0",
   "background": {
     "scripts": [
