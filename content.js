@@ -5,6 +5,8 @@ chrome.runtime.onMessage.addListener(message => {
     switch (message) {
         case 'active-breath': {
             chrome.storage.sync.get('bt', ({bt}) => {
+                if (!bt)
+                    bt = 60
                 BREATH_TIME = bt * 1
                 active()
             })

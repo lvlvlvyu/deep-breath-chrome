@@ -27,6 +27,8 @@ chrome.storage.sync.get('init', ({init}) => {
 })
 
 chrome.storage.sync.get('th', ({th}) => {
+    if (!th)
+        th = 30 * 60
     THRESHOLD = th * 1000
 })
 
