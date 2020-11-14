@@ -89,8 +89,10 @@ function onNotifyClick(id) {
 }
 
 function onNotifyClose(id) {
-    if (clicked)
+    if (clicked) {
+        clicked = false
         return
+    }
     console.log('onclose')
     chrome.notifications.clear(id)
     timerEnabled = true
